@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>TwitchAPI Vue.js</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  
+
+<div class="page" v-cloak>
+  <div class="sidebar">
+    <h2>Twitch API</h2>
+    <div class='user-controls-wrapper'>
+      <!-- ADD CHANNEL -->
+      <div class="add-channel">
+        <input v-model="search" type="text" placeholder="Search for an user">
+        
+        <button v-on:click="addChannels">
+          <i class="fa fa-plus-square" aria-hidden="true"></i></i>
+        </button>
+      </div>
+    <p style="text-align: center" v-if="showErrors">{{ showErrors }}</p>
+      <!-- ADD CHANNEL -->
+      <span v-on:click="all" class='all-channels'>All Channels</span>
+      <span v-on:click="live" class='live-channels'>Live</span>
+      <span v-on:click="offline" class='offline-channels'>Offline</span>
+    </div>
+    
+    <span class="author">by <a href="https://andreiknight.github.io/">AndreiKnight</a></span>
+  </div>
+  <div class="container">
+    <div class='card' v-for="channel in showChannelsFilters">
+              <div class='streamtitle-live-wrapper'>
+                 <a v-bind:href="channel.url" 
+                    target='_blank'>
+                  <h4 v-if="channel.status">{{ channel.status }}</h4>
+                   <h4 v-else="channel.status === null">User is not playing anything.</h4>
+                   </a>
+                    <span v-if="channel.isLive" class='isLive'><span class="liveDot"></span> Live</span>
+                    <span v-else="channel.isLive" class='isLive'>Offline</span>
+              </div>
+
+             <div class='user-info-wrap'>
+              <div class='user-info'>
+                <img v-if="channel.logo !== null" class='user-logo' v-bind:src='channel.logo'>
+                <i style="font-size: 70px;" v-else="channel.logo === null" class="fa fa-user-circle" aria-hidden="true"></i>
+                  <div class='user-streaming-wrapper'>
+                <h5>{{ channel.name }}</h5>
+                <span v-if="channel.game !== null" class='isStreaming'>Streaming: {{ channel.game }} </span>
+                <span v-else="channel.game === null" class='isStreaming'>Streaming: Nothing.</span>
+              </div>
+                <a v-bind:href='channel.livePrev' target='_blank'>
+                <div class='preview'><img v-if="channel.livePrev" width='200px' height='120px' class='' v-bind:src='channel.livePrev'>
+                  <img v-else="channel.livePrev" width='200px' height='120px' class='' src='https://s-media-cache-ak0.pinimg.com/originals/69/7b/39/697b399ca80d1c688f7e517468e619c0.png'>
+                </div>
+             </a>
+        </div>
+              </div>
+  </div>
+
+  
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js'></script>
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>
